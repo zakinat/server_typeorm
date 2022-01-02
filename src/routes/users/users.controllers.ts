@@ -6,7 +6,7 @@ export const userController=(con: Connection): Array<ServerRoute>=>{
     const userRepo:Repository<UsersEntity>= con.getRepository(UsersEntity)
     return [
         {
-            method: 'Get',
+            method: 'GET',
             path:'/users',
             handler: async (request: Request, h: ResponseToolkit, err?: Error)=>{
                 const {query} =request
@@ -41,9 +41,10 @@ export const userController=(con: Connection): Array<ServerRoute>=>{
                     delete findOptions.where
                     delete findAllOptions.where
                 } 
-                const data= await userRepo.find(findOptions)
                 const allData= await userRepo.find(findAllOptions)
                 const PagesNumbers= Math.ceil(allData.length/realTake) 
+
+                const data= await userRepo.find(findOptions)
                 return {
                     data,
                     perPage: data.length,
