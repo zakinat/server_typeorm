@@ -12,6 +12,7 @@ export class UsersEntity extends SharedProp{
         firstName: string,
         lastName: string,
         email: string,
+        password: string,
         dateOfBirth: Date,
         role?: UserRole
     ){
@@ -19,6 +20,7 @@ export class UsersEntity extends SharedProp{
         this.firstName= firstName
         this.lastName= lastName
         this.email= email
+        this.password= password
         this.dateOfBirth= dateOfBirth
         this.role= role
     }
@@ -41,6 +43,9 @@ export class UsersEntity extends SharedProp{
 
     @Column({default: 'user'})
     role: UserRole
+
+    @Column({nullable: false})
+    password: string
 
     @OneToMany(()=>PostsEntity, (posts: PostsEntity)=> posts.user, {onDelete:'CASCADE', onUpdate: 'CASCADE'})
     posts: Array<PostsEntity>

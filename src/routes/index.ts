@@ -1,1 +1,1 @@
-export {userController} from './users/users.controllers'
+export {userRouts} from './users/users.routes'

@@ -2,7 +2,7 @@ import {  Connection, Repository } from "typeorm";
 import { UsersEntity } from "../../db/entities";
 import { ResponseToolkit, ServerRoute, Request } from "hapi";
 
-export const userController=(con: Connection): Array<ServerRoute>=>{
+export const userRouts=(con: Connection): Array<ServerRoute>=>{
     const userRepo:Repository<UsersEntity>= con.getRepository(UsersEntity)
     return [
         {
@@ -69,8 +69,8 @@ export const userController=(con: Connection): Array<ServerRoute>=>{
             path:'/users',
             handler: async (request: Request, h: ResponseToolkit, err?: Error)=>{
                 const {payload}= request
-                const {firstName, lastName, email, dateOfBirth } = payload as Partial<UsersEntity>
-                const u:Partial<UsersEntity>= new UsersEntity(firstName, lastName, email, dateOfBirth)
+                const {firstName, lastName, email,password, dateOfBirth } = payload as Partial<UsersEntity>
+                const u:Partial<UsersEntity>= new UsersEntity(firstName, lastName, email, password, dateOfBirth)
                 return {
                     data: userRepo.save<Partial<UsersEntity>>(u) 
                 }
