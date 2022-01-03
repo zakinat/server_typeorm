@@ -12,7 +12,7 @@ const hash=async(needtohash)=>{
 
 const generateJwtToken=(user)=> {
     // create a jwt token containing the account id that expires in 15 minutes
-    return jwt.sign({ id: user.id}, process.env.JWT_SECRET, { expiresIn: '15m' })
+    return jwt.sign({ id: user.id}, process.env.JWT_SECRET /*, { expiresIn: '15m' }*/)
 }
 const randomTokenString=()=>{
     return crypto. randomBytes(40).toString('hex')

@@ -59,8 +59,9 @@ export const userRouts=(con: Connection): Array<ServerRoute>=>{
             path:'/users/{id}',
             handler: async (request: Request, h: ResponseToolkit, err?: Error)=>{
                 const {params: {id}}= request
+                const data = await userRepo.findOne(id)
                 return {
-                    data: await userRepo.findOne(id)
+                    data,
                 }
             }
         },
@@ -71,8 +72,9 @@ export const userRouts=(con: Connection): Array<ServerRoute>=>{
                 const {payload}= request
                 const {firstName, lastName, email,password, dateOfBirth } = payload as Partial<UsersEntity>
                 const u:Partial<UsersEntity>= new UsersEntity(firstName, lastName, email, password, dateOfBirth)
+                const data= await userRepo.save<Partial<UsersEntity>>(u)
                 return {
-                    data: userRepo.save<Partial<UsersEntity>>(u) 
+                    data, 
                 }
             }
         },
@@ -81,11 +83,11 @@ export const userRouts=(con: Connection): Array<ServerRoute>=>{
             path:'/users/{id}',
             handler: async (request: Request, h: ResponseToolkit, err?: Error)=>{
                 const {payload, params:{id}}= request
-                const u = await userRepo.findOne(id)
-                Object.keys(payload).forEach((key: string)=> u[key]= payload[key])
-                await userRepo.update(id, u)
+                const data = await userRepo.findOne(id)
+                Object.keys(payload).forEach((key: string)=> data[key]= payload[key])
+                await userRepo.update(id, data)
                 return {
-                    data: u
+                    data,
                 }
             }
         },
@@ -94,10 +96,10 @@ export const userRouts=(con: Connection): Array<ServerRoute>=>{
             path:'/users/{id}',
             handler: async (request: Request, h: ResponseToolkit, err?: Error)=>{
                 const { params:{id}}= request
-                const u = await userRepo.findOne(id)
-                await userRepo.remove(u)
+                const data = await userRepo.findOne(id)
+                await userRepo.remove(data)
                 return {
-                    data: u
+                    message: 'deleted',
                 }
             }
         },

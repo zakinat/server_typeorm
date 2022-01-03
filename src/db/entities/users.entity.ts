@@ -44,7 +44,7 @@ export class UsersEntity extends SharedProp{
     @Column({default: 'user'})
     role: UserRole
 
-    @Column({nullable: false})
+    @Column({nullable: false, select: false})
     password: string
 
     @OneToMany(()=>PostsEntity, (posts: PostsEntity)=> posts.user, {onDelete:'CASCADE', onUpdate: 'CASCADE'})

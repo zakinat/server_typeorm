@@ -3,7 +3,8 @@ import { Connection } from 'typeorm';
 import { Server, ServerRoute } from '@hapi/hapi';
 import 'colors'
 import { initDB } from './db'
-import { userRouts } from './routes';
+import { userRouts, authRoutes } from './routes';
+import { validateBasic } from './controllers/auth/auth.controller';
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname+'/.env' });
 
@@ -16,7 +17,10 @@ const init =async ()=>{
 
     const con: Connection =await initDB()
      console.log('DB init done')
-     server.route([...userRouts(con)] as Array<ServerRoute>)
+     await server.register(require('hapi-auth-jwt2'))
+     await server.register(require('@hapi/basic'))
+     server.auth.strategy('simple', 'basic', {validate: validateBasic(con)})
+     server.route([...userRouts(con), ...authRoutes(con)] as Array<ServerRoute>)
 
    await server.start()
    console.log('server started'.green)
