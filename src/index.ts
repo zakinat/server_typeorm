@@ -21,6 +21,7 @@ const init =async ()=>{
      await server.register(require('@hapi/basic'))
      server.auth.strategy('simple', 'basic', {validate: validateBasic(con)})
      server.auth.strategy('jwt', 'jwt', {key: process.env.JWT_SECRET, validate: validateJWT(con) })
+     //server.auth.default('jwt') and inside the routes that we dont want to hava auth we add options auth: false
      server.route([...userRouts(con), ...authRoutes(con)] as Array<ServerRoute>)
 
    await server.start()
