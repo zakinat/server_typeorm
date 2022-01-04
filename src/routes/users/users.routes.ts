@@ -52,6 +52,11 @@ export const userRouts=(con: Connection): Array<ServerRoute>=>{
                     next: +page < PagesNumbers ? `${process.env.API_URL}/users?perPage=${realTake}&page=${+page + 1}${qp}` : '',
                     prev: +page === 1 ? '' :`${process.env.API_URL}/users?perPage=${realTake}&page=${+page - 1}${qp}`,
                 }
+            },
+            options:{
+                auth:{
+                    strategy: 'jwt'
+                }
             }
         },
         {

@@ -9,7 +9,6 @@ export const validateBasic= (con: Connection)=>{
     return async (request: Request, email: string, passwordCRD: string, h: ResponseToolkit )=>{
         try {
             const user= await userRepo.findOne({email})
-            console.log(user)
             if (!user) {
                 return { credentials: null, isValid: false };
               }
@@ -26,4 +25,16 @@ export const validateBasic= (con: Connection)=>{
         }
         
     }
+}
+
+
+export const validateJWT =(con: Connection)=>{
+    const userRepo:Repository<UsersEntity>= con.getRepository(UsersEntity)
+
+    return async ({id}:Partial<UsersEntity>, request: Request, h: ResponseToolkit)=>{
+        const user:UsersEntity = await userRepo.findOne({id})
+        if (!user) return {isValid: false}
+        return {isValid: true}
+    }
+
 }

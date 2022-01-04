@@ -4,7 +4,7 @@ import { Server, ServerRoute } from '@hapi/hapi';
 import 'colors'
 import { initDB } from './db'
 import { userRouts, authRoutes } from './routes';
-import { validateBasic } from './controllers/auth/auth.controller';
+import { validateBasic, validateJWT } from './controllers/auth/auth.controller';
 import * as dotenv from "dotenv";
 dotenv.config({ path: __dirname+'/.env' });
 
@@ -20,6 +20,7 @@ const init =async ()=>{
      await server.register(require('hapi-auth-jwt2'))
      await server.register(require('@hapi/basic'))
      server.auth.strategy('simple', 'basic', {validate: validateBasic(con)})
+     server.auth.strategy('jwt', 'jwt', {key: process.env.JWT_SECRET, validate: validateJWT(con) })
      server.route([...userRouts(con), ...authRoutes(con)] as Array<ServerRoute>)
 
    await server.start()
