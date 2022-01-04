@@ -26,8 +26,8 @@ export class UsersEntity extends SharedProp{
     }
 
 
-    @PrimaryGeneratedColumn()
-    id:number;
+    @PrimaryGeneratedColumn('uuid')
+    id:string;
 
     @Column({name: 'first_name', nullable: false})
     firstName:string;

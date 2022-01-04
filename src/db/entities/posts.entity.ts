@@ -8,7 +8,7 @@ export class PostsEntity extends SharedProp{
     constructor(
         title: string,
         body: string,
-        userId: number
+        userId: string
     ){
         super()
         this.title= title
@@ -18,8 +18,8 @@ export class PostsEntity extends SharedProp{
         
     }
 
-    @PrimaryGeneratedColumn()
-    id:number;
+    @PrimaryGeneratedColumn('uuid')
+    id:string;
 
     @Column()
     title: string;
@@ -28,7 +28,7 @@ export class PostsEntity extends SharedProp{
     body: string;
     
     @Column({name: 'user_id', nullable: false})
-    userId: number;
+    userId: string;
 
     @ManyToOne(()=>UsersEntity, (user: UsersEntity)=> user.posts)
     @JoinColumn({name: 'user_id'})
